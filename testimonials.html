@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testimonials - Mama Aku Semeii Aloe Wellness Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+</head>
+<body>
+  <nav>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="logo.svg" alt="Mama Aku Logo" style="height:44px;width:auto;">
+      </a>
+      <div class="nav-right">
+        <div class="auth-links"></div>
+        <a href="products.html#cart" class="cart-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+    <div class="nav-links-row">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="testimonials.html" class="active">Testimonials</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="page-hero" style="background: linear-gradient(135deg, rgba(139,195,74,0.85), rgba(76,175,80,0.85)), url('images/frames-for-your-heart-mR1CIDduGLc-unsplash.jpg') center/cover no-repeat;">
+    <div class="container" style="text-align:center;color:white;padding-top:6rem;">
+      <h1 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:700;margin-bottom:1rem;">Real Stories, Real Results</h1>
+      <p style="font-size:1.2rem;opacity:0.95;max-width:600px;margin:0 auto;">Hear from people whose lives have been transformed by Mama Aku's wellness products.</p>
+    </div>
+  </section>
+
+  <!-- Testimonials Grid -->
+  <section class="section fade-in">
+    <div class="container">
+      <h2 class="section-title">Customer Testimonials</h2>
+      <div id="testimonials-list" class="testimonials-grid">
+        <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:#8BC34A;"></i>
+          <p>Loading testimonials...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Submit Testimonial -->
+  <section class="section slide-left" style="background:rgba(139,195,74,0.04);">
+    <div class="container">
+      <div class="testimonial-form-wrap glass" style="max-width:650px;margin:0 auto;padding:3rem;">
+        <div style="text-align:center;margin-bottom:2rem;">
+          <i class="fas fa-star" style="font-size:2.5rem;color:#8BC34A;"></i>
+          <h2 style="margin-top:1rem;font-size:2rem;">Share Your Experience</h2>
+          <p style="color:#555;margin-top:0.5rem;">Your story could inspire someone else's wellness journey.</p>
+        </div>
+        <form id="testimonial-form">
+          <div class="form-group">
+            <label><i class="fas fa-user" style="color:#8BC34A;margin-right:6px;"></i>Your Name</label>
+            <input type="text" id="t-name" placeholder="e.g. Abena Mensah" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-star" style="color:#8BC34A;margin-right:6px;"></i>Rating</label>
+            <div class="star-rating" id="star-rating">
+              <span data-val="1">★</span>
+              <span data-val="2">★</span>
+              <span data-val="3">★</span>
+              <span data-val="4">★</span>
+              <span data-val="5">★</span>
+            </div>
+            <input type="hidden" id="t-rating" value="5">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-comment" style="color:#8BC34A;margin-right:6px;"></i>Your Story</label>
+            <textarea id="t-message" rows="5" placeholder="Tell us how Mama Aku's products helped you..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;font-size:1.1rem;padding:15px;">
+            <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Submit Testimonial
+          </button>
+          <p id="t-success" style="display:none;text-align:center;color:#8BC34A;margin-top:1rem;font-weight:600;">
+            <i class="fas fa-check-circle"></i> Thank you! Your testimonial is pending review.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/233200409106" class="float-whatsapp" target="_blank" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2024 Mama Aku Semeii Aloe Wellness Hub. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { getCollection, addDocToCollection } from './js/firebase.js';
+    import './js/app.js';
+
+    // Load approved testimonials
+    async function loadTestimonials() {
+      const container = document.getElementById('testimonials-list');
+      try {
+        const data = await getCollection('testimonials');
+        const approved = data.filter(t => t.approved === true);
+        if (!approved.length) {
+          container.innerHTML = `
+            <div style="text-align:center;padding:4rem;color:#777;grid-column:1/-1;">
+              <i class="fas fa-comments" style="font-size:3rem;color:#ccc;margin-bottom:1rem;display:block;"></i>
+              <p>No testimonials yet. Be the first to share your story!</p>
+            </div>`;
+          return;
+        }
+        container.innerHTML = approved.map(t => `
+          <div class="testimonial-card glass fade-in">
+            <div class="testimonial-avatar">${t.name ? t.name[0].toUpperCase() : '?'}</div>
+            <div class="rating">${'★'.repeat(t.rating || 5)}${'☆'.repeat(5 - (t.rating || 5))}</div>
+            <p class="testimonial-text">"${t.message}"</p>
+            <p class="testimonial-author">— ${t.name}</p>
+          </div>
+        `).join('');
+        // trigger animations
+        document.querySelectorAll('.fade-in').forEach(el => {
+          setTimeout(() => el.classList.add('visible'), 100);
+        });
+      } catch (e) {
+        container.innerHTML = '<p style="text-align:center;color:#e74c3c;">Error loading testimonials. Please try again.</p>';
+      }
+    }
+
+    loadTestimonials();
+
+    // Star rating interaction
+    const stars = document.querySelectorAll('#star-rating span');
+    let selectedRating = 5;
+    stars.forEach(star => {
+      star.addEventListener('mouseover', () => {
+        const val = parseInt(star.dataset.val);
+        stars.forEach(s => s.classList.toggle('active', parseInt(s.dataset.val) <= val));
+      });
+      star.addEventListener('click', () => {
+        selectedRating = parseInt(star.dataset.val);
+        document.getElementById('t-rating').value = selectedRating;
+        stars.forEach(s => s.classList.toggle('selected', parseInt(s.dataset.val) <= selectedRating));
+      });
+    });
+    document.getElementById('star-rating').addEventListener('mouseleave', () => {
+      stars.forEach(s => s.classList.toggle('active', parseInt(s.dataset.val) <= selectedRating));
+    });
+    // init all 5 stars selected
+    stars.forEach(s => s.classList.add('active', 'selected'));
+
+    // Submit testimonial
+    document.getElementById('testimonial-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type="submit"]');
+      btn.textContent = 'Submitting...'; btn.disabled = true;
+      const name = document.getElementById('t-name').value.trim();
+      const message = document.getElementById('t-message').value.trim();
+      const rating = parseInt(document.getElementById('t-rating').value);
+      try {
+        await addDocToCollection('testimonials', { name, message, rating, approved: false });
+        document.getElementById('t-success').style.display = 'block';
+        e.target.reset();
+        stars.forEach(s => s.classList.add('active', 'selected'));
+        selectedRating = 5;
+      } catch (err) {
+        alert('Error submitting. Please try again.');
+      }
+      btn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right:8px;"></i>Submit Testimonial';
+      btn.disabled = false;
+    });
+  </script>
+</body>
+</html>

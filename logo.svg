@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none">
+  <!-- Aloe leaf icon mark -->
+  <!-- Outer leaf left -->
+  <path d="M18 36 C10 28 8 16 14 8 C16 5 19 4 20 6 C21 8 20 14 18 20 C17 24 17 30 18 36Z"
+        fill="#8BC34A" opacity="0.55"/>
+  <!-- Outer leaf right -->
+  <path d="M22 36 C30 28 32 16 26 8 C24 5 21 4 20 6 C19 8 20 14 22 20 C23 24 23 30 22 36Z"
+        fill="#7CB342" opacity="0.55"/>
+  <!-- Center main leaf -->
+  <path d="M20 38 C17 30 15 20 17 11 C18 7 19.5 5 20 5 C20.5 5 22 7 23 11 C25 20 23 30 20 38Z"
+        fill="#8BC34A"/>
+  <!-- Leaf shine -->
+  <path d="M20 10 C20 10 19.2 16 19.5 22" stroke="white" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <!-- Small side sprout left -->
+  <path d="M17 18 C13 15 10 17 9 20 C11 20 14 19 17 20Z" fill="#AED581" opacity="0.8"/>
+  <!-- Small side sprout right -->
+  <path d="M23 18 C27 15 30 17 31 20 C29 20 26 19 23 20Z" fill="#AED581" opacity="0.8"/>
+
+  <!-- Brand name -->
+  <text x="38" y="20" font-family="'Poppins', 'Segoe UI', Arial, sans-serif"
+        font-size="13" font-weight="700" fill="#5a8a2a" letter-spacing="0.3">Mama Aku</text>
+  <text x="38" y="34" font-family="'Poppins', 'Segoe UI', Arial, sans-serif"
+        font-size="8.5" font-weight="500" fill="#8BC34A" letter-spacing="1.5">WELLNESS HUB</text>
+</svg>

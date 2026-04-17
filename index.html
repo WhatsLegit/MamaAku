@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mama Aku Semeii Aloe Wellness Hub</title>
+  <!-- Preconnect to speed up external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://firestore.googleapis.com">
+  <!-- Preload hero image — LCP element -->
+  <link rel="preload" as="image" href="images/pexels-tima-miroshnichenko-5452221.jpg">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Font Awesome deferred — non-render-blocking -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+</head>
+<body>
+  <nav>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="logo.svg" alt="Mama Aku Logo" style="height:44px;width:auto;">
+      </a>
+      <div class="nav-right">
+        <div class="auth-links"></div>
+        <a href="products.html#cart" class="cart-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+    <div class="nav-links-row">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero fade-in">
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-badge">Forever Living Products</span>
+        <h1>Welcome to Mama Aku Semeii<br>Aloe Wellness Hub</h1>
+        <p>Natural wellness and business opportunities through aloe-based nutrition from Forever Living Products.</p>
+        <div class="hero-buttons">
+          <a href="products.html" class="btn btn-primary">Explore Products</a>
+          <a href="business.html" class="btn btn-secondary">Join the Business</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section id="benefits" class="section slide-left">
+    <div class="container">
+      <h2 class="section-title">Wellness Benefits</h2>
+      <div class="grid">
+        <div class="card glass">
+          <i class="fas fa-bolt" style="font-size:3rem;color:#8BC34A;margin-bottom:1rem;"></i>
+          <h3>Energy Support</h3>
+          <p>Sustain your day with natural aloe energy.</p>
+        </div>
+        <div class="card glass">
+          <i class="fas fa-weight-hanging" style="font-size:3rem;color:#8BC34A;margin-bottom:1rem;"></i>
+          <h3>Weight Management</h3>
+          <p>Achieve your goals naturally.</p>
+        </div>
+        <div class="card glass">
+          <i class="fas fa-heart" style="font-size:3rem;color:#8BC34A;margin-bottom:1rem;"></i>
+          <h3>Heart Health</h3>
+          <p>Support cardiovascular wellness.</p>
+        </div>
+        <div class="card glass">
+          <i class="fas fa-shield-alt" style="font-size:3rem;color:#8BC34A;margin-bottom:1rem;"></i>
+          <h3>Immune Support</h3>
+          <p>Stay strong with aloe.</p>
+        </div>
+        <div class="card glass">
+          <i class="fas fa-baby" style="font-size:3rem;color:#8BC34A;margin-bottom:1rem;"></i>
+          <h3>Fertility Support</h3>
+          <p>Natural support for family planning.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Mama Aku -->
+  <section class="section fade-in" style="background:rgba(139,195,74,0.04);">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;" class="about-layout">
+        <div>
+          <span style="color:#8BC34A;font-weight:600;text-transform:uppercase;letter-spacing:2px;font-size:0.85rem;">Our Story</span>
+          <h2 style="font-size:clamp(1.8rem,4vw,2.5rem);margin:1rem 0;line-height:1.3;">Hello, I'm <span style="color:#8BC34A;">Mama Aku</span></h2>
+          <p style="color:#555;font-size:1rem;line-height:1.9;margin-bottom:1.2rem;">My journey with Forever Living Products started with a simple belief: that natural wellness and the right support can transform lives. Today, I help individuals and families discover the benefits of aloe-based nutrition, supplements, and wellness products.</p>
+          <p style="color:#555;font-size:1rem;line-height:1.9;margin-bottom:2rem;">Whether you're looking to improve your energy, manage your weight, support your heart health, or build a business from home — I'm here to walk that journey with you.</p>
+          <div style="display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2rem;">
+            <div style="text-align:center;">
+              <div style="font-size:1.8rem;font-weight:700;color:#8BC34A;">5+</div>
+              <div style="font-size:0.82rem;color:#999;">Years Experience</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:1.8rem;font-weight:700;color:#8BC34A;">200+</div>
+              <div style="font-size:0.82rem;color:#999;">Happy Clients</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:1.8rem;font-weight:700;color:#8BC34A;">160+</div>
+              <div style="font-size:0.82rem;color:#999;">Countries (FLP)</div>
+            </div>
+          </div>
+          <a href="about.html" class="btn btn-primary">
+            <i class="fas fa-user" style="margin-right:8px;"></i>Learn More About Us
+          </a>
+        </div>
+        <div class="glass" style="padding:2rem;text-align:center;">
+          <img src="images/WhatsApp%20Image%202026-04-17%20at%203.16.30%20PM%20(4).jpeg" alt="Mama Aku" style="width:100%;border-radius:16px;display:block;" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo Gallery -->
+  <section class="section fade-in" style="background:rgba(139,195,74,0.03);">
+    <div class="container">
+      <div class="biz-gallery">
+        <div class="biz-gallery-item">
+          <img src="images/WhatsApp%20Image%202026-04-17%20at%203.16.30%20PM%20(2).jpeg" alt="Business team">
+          <div class="biz-gallery-overlay"><span>Team Meeting</span></div>
+        </div>
+        <div class="biz-gallery-item">
+          <img src="images/WhatsApp%20Image%202026-04-17%20at%203.16.30%20PM%20(1).jpeg" alt="Business activity">
+          <div class="biz-gallery-overlay"><span>Training Session</span></div>
+        </div>
+        <div class="biz-gallery-item">
+          <img src="images/WhatsApp%20Image%202026-04-17%20at%203.16.30%20PM%20(3).jpeg" alt="Business success">
+          <div class="biz-gallery-overlay"><span>Success Stories</span></div>
+        </div>
+        <div class="biz-gallery-item">
+          <img src="images/WhatsApp%20Image%202026-04-17%20at%203.16.30%20PM%20(4).jpeg" alt="Mama Aku team">
+          <div class="biz-gallery-overlay"><span>Our Community</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Values -->
+  <section class="section slide-left">
+    <div class="container">
+      <h2 class="section-title">Our Mission & Values</h2>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+        <div class="card glass">
+          <i class="fas fa-bullseye" style="font-size:2.5rem;color:#8BC34A;margin-bottom:1rem;"></i>
+          <h3>Our Mission</h3>
+          <p>To make natural wellness accessible to every Ghanaian family, and to empower people to build sustainable income through Forever Living Products.</p>
+        </div>
+        <div class="card glass">
+          <i class="fas fa-eye" style="font-size:2.5rem;color:#8BC34A;margin-bottom:1rem;"></i>
+          <h3>Our Vision</h3>
+          <p>A Ghana where every household has access to quality natural health products and the opportunity to achieve financial freedom.</p>
+        </div>
+        <div class="card glass">
+          <i class="fas fa-heart" style="font-size:2.5rem;color:#8BC34A;margin-bottom:1rem;"></i>
+          <h3>Our Values</h3>
+          <p>Integrity, compassion, excellence, and community. We believe in building real relationships and delivering real results.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section id="featured" class="section fade-in" style="background:rgba(139,195,74,0.04);">
+    <div class="container">
+      <h2 class="section-title">Featured Products</h2>
+      <div id="featured-products" class="products-grid-compact">
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:#777;">
+          <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:#8BC34A;"></i>
+          <p style="margin-top:1rem;">Loading products...</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:2rem;">
+        <a href="products.html" class="btn btn-primary">View All Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="section slide-left">
+    <div class="container">
+      <h2 class="section-title">What Our Customers Say</h2>
+      <div id="testimonials-carousel" class="testimonials-grid">
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:#777;">
+          <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:#8BC34A;"></i>
+          <p style="margin-top:1rem;">Loading testimonials...</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:2rem;">
+        <a href="testimonials.html" class="btn btn-primary">Share Your Story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Business CTA -->
+  <section class="section fade-in" style="background:rgba(255,255,255,0.7);backdrop-filter:blur(12px);border-top:1px solid rgba(0,0,0,0.06);border-bottom:1px solid rgba(0,0,0,0.06);text-align:center;">
+    <div class="container">
+      <i class="fas fa-briefcase" style="font-size:2.5rem;margin-bottom:1rem;display:block;color:rgba(139,195,74,0.7);"></i>
+      <h2 style="font-size:2.2rem;margin-bottom:1rem;color:#1a1a1a;">Build Your Business With Us</h2>
+      <p style="font-size:1.05rem;color:#666;max-width:580px;margin:0 auto 2rem;">Join thousands of people earning from home with Forever Living Products. No experience needed.</p>
+      <a href="business.html" class="btn btn-primary" style="font-size:1rem;padding:14px 36px;">Learn More</a>
+    </div>
+  </section>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/233200409106" class="float-whatsapp" target="_blank" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2024 Mama Aku Semeii Aloe Wellness Hub. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="products.html">Products</a>
+        <a href="business.html">Business</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { loadFeaturedProducts } from './js/products.js';
+    import { getCollection } from './js/firebase.js';
+    import './js/app.js';
+
+    loadFeaturedProducts('featured-products', 4);
+
+    // Load homepage testimonials
+    async function loadHomeTestimonials() {
+      const container = document.getElementById('testimonials-carousel');
+      try {
+        const data = await getCollection('testimonials');
+        const approved = data.filter(t => t.approved === true).slice(0, 3);
+        if (!approved.length) {
+          container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#777;"><p>Be the first to share your story! <a href="testimonials.html" style="color:#8BC34A;">Leave a testimonial</a></p></div>`;
+          return;
+        }
+        container.innerHTML = approved.map(t => `
+          <div class="testimonial-card glass">
+            <div class="testimonial-avatar">${t.name ? t.name[0].toUpperCase() : '?'}</div>
+            <div class="rating">${'★'.repeat(t.rating || 5)}</div>
+            <p class="testimonial-text">"${t.message}"</p>
+            <p class="testimonial-author">— ${t.name}</p>
+          </div>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#777;"><p>Testimonials coming soon.</p></div>';
+      }
+    }
+    loadHomeTestimonials();
+  </script>
+</body>
+</html>

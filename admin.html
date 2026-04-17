@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Mama Aku</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { padding-top: 0; background: #f5f7f5; }
+
+    /* ===== LAYOUT ===== */
+    .admin-layout { display: flex; min-height: 100vh; }
+
+    /* ===== SIDEBAR ===== */
+    .admin-sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-right: 1px solid rgba(0,0,0,0.07);
+      padding: 2rem 1.2rem;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+
+    .sidebar-logo .icon {
+      width: 38px; height: 38px;
+      background: rgba(139,195,74,0.12);
+      border: 1px solid rgba(139,195,74,0.3);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #6a9e30; font-size: 1rem;
+    }
+
+    .sidebar-logo span { font-weight: 700; font-size: 1rem; color: #1a1a1a; }
+    .sidebar-logo small { display: block; font-size: 0.72rem; color: #aaa; }
+
+    .sidebar-nav { list-style: none; flex: 1; overflow-y: auto; }
+    .sidebar-nav li { margin-bottom: 4px; }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      color: #666;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      background: rgba(139,195,74,0.1);
+      color: #5a8a2a;
+    }
+
+    .sidebar-nav a i { width: 18px; text-align: center; font-size: 0.95rem; }
+
+    .sidebar-logout {
+      margin-top: auto;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(0,0,0,0.07);
+    }
+
+    .sidebar-logout button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: none;
+      border: none;
+      color: #e74c3c;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+
+    .sidebar-logout button:hover { background: rgba(231,76,60,0.07); }
+
+    /* ===== MAIN ===== */
+    .admin-main {
+      margin-left: 240px;
+      flex: 1;
+      padding: 2.5rem;
+      min-height: 100vh;
+      min-width: 0;
+    }
+
+    .admin-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .admin-topbar h1 { font-size: 1.6rem; color: #1a1a1a; }
+    .admin-topbar p { color: #999; font-size: 0.85rem; margin-top: 2px; }
+
+    .admin-user-badge {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .admin-user-badge i { color: #7ab535; flex-shrink: 0; }
+    .admin-user-badge span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ===== PANELS ===== */
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+
+    /* ===== STATS ===== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 18px;
+      padding: 1.4rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+
+    .stat-box .stat-icon {
+      width: 40px; height: 40px;
+      background: rgba(139,195,74,0.1);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #6a9e30; font-size: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .stat-box .stat-num { font-size: 1.9rem; font-weight: 700; color: #1a1a1a; }
+    .stat-box .stat-label { font-size: 0.8rem; color: #aaa; margin-top: 2px; }
+
+    /* ===== CARDS ===== */
+    .admin-card {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 20px;
+      padding: 1.8rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .admin-card h3 {
+      font-size: 1.05rem;
+      color: #1a1a1a;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .admin-card h3 i { color: #7ab535; }
+
+    /* ===== PRODUCT ITEMS ===== */
+    #products-grid .product-admin-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    #products-grid .product-admin-item:last-child { border-bottom: none; }
+
+    #products-grid .product-admin-item img {
+      width: 52px; height: 52px;
+      object-fit: cover;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    #products-grid .product-admin-item .info { flex: 1; min-width: 0; }
+    #products-grid .product-admin-item .info strong { display: block; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #products-grid .product-admin-item .info span { font-size: 0.78rem; color: #aaa; }
+
+    /* ===== FORMS ===== */
+    .admin-form input,
+    .admin-form textarea,
+    .admin-form select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: inherit;
+      background: rgba(255,255,255,0.8);
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+
+    .admin-form input:focus,
+    .admin-form textarea:focus {
+      outline: none;
+      border-color: rgba(139,195,74,0.5);
+    }
+
+    .admin-form label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 4px;
+    }
+
+    .admin-form .field { margin-bottom: 1rem; }
+
+    /* ===== TABLE ===== */
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* ===== BOTTOM NAV (mobile only) ===== */
+    .admin-bottom-nav { display: none; }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+
+      .admin-main {
+        margin-left: 0;
+        padding: 1rem 0.85rem 80px;
+      }
+
+      .admin-topbar { margin-bottom: 1rem; }
+      .admin-topbar h1 { font-size: 1.15rem; }
+      .admin-topbar p { font-size: 0.72rem; }
+      .admin-user-badge { padding: 6px 12px; font-size: 0.75rem; max-width: 200px; }
+
+      .stats-row { grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+      .stat-box { padding: 0.9rem; border-radius: 14px; }
+      .stat-box .stat-icon { width: 32px; height: 32px; font-size: 0.85rem; margin-bottom: 0.5rem; }
+      .stat-box .stat-num { font-size: 1.5rem; }
+      .stat-box .stat-label { font-size: 0.72rem; }
+
+      .admin-card { padding: 1rem; border-radius: 14px; margin-bottom: 0.85rem; }
+      .admin-card h3 { font-size: 0.95rem; margin-bottom: 0.9rem; }
+
+      /* Product form: single column */
+      .product-form-grid { display: flex !important; flex-direction: column !important; gap: 0 !important; }
+
+      /* Bottom tab bar */
+      .admin-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: rgba(255,255,255,0.96);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(0,0,0,0.08);
+        z-index: 500;
+        height: 62px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .admin-bottom-nav::-webkit-scrollbar { display: none; }
+
+      .admin-bottom-nav a {
+        flex: 0 0 auto;
+        min-width: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        padding: 6px 8px;
+        color: #bbb;
+        text-decoration: none;
+        font-size: 0.58rem;
+        font-weight: 600;
+        transition: color 0.2s;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-family: inherit;
+        white-space: nowrap;
+      }
+
+      .admin-bottom-nav a i { font-size: 1.15rem; display: block; }
+
+      .admin-bottom-nav a.active { color: #6a9e30; }
+
+      .admin-bottom-nav a.active i {
+        background: rgba(139,195,74,0.12);
+        border-radius: 8px;
+        padding: 3px 7px;
+      }
+
+      .admin-bottom-nav a.logout-btn { color: #e74c3c; }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo">
+        <div class="icon"><i class="fas fa-shield-alt"></i></div>
+        <div>
+          <span>Mama Aku</span>
+          <small>Admin Panel</small>
+        </div>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="#" class="active" onclick="showPanel('overview', this)"><i class="fas fa-chart-pie"></i> Overview</a></li>
+        <li><a href="#" onclick="showPanel('orders', this)"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+        <li><a href="#" onclick="showPanel('users', this)"><i class="fas fa-users"></i> Users</a></li>
+        <li><a href="#" onclick="showPanel('products', this)"><i class="fas fa-box"></i> Products</a></li>
+        <li><a href="#" onclick="showPanel('testimonials', this)"><i class="fas fa-star"></i> Testimonials</a></li>
+        <li><a href="#" onclick="showPanel('applications', this)"><i class="fas fa-briefcase"></i> Applications</a></li>
+        <li><a href="#" onclick="showPanel('messages', this)"><i class="fas fa-envelope"></i> Messages</a></li>
+        <li><a href="#" onclick="openChangePassword()"><i class="fas fa-key"></i> Change Password</a></li>
+      </ul>
+      <div class="sidebar-logout">
+        <button onclick="adminLogout()">
+          <i class="fas fa-sign-out-alt"></i> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1>Dashboard</h1>
+          <p id="admin-greeting">Welcome back</p>
+        </div>
+        <div class="admin-user-badge">
+          <i class="fas fa-user-shield"></i>
+          <span id="admin-email-display">Admin</span>
+        </div>
+      </div>
+
+      <!-- Overview Panel -->
+      <div id="panel-overview" class="admin-panel active">
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="stat-num" id="orders-count">—</div>
+            <div class="stat-label">Orders</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-num" id="users-count">—</div>
+            <div class="stat-label">Total Users</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-icon"><i class="fas fa-box"></i></div>
+            <div class="stat-num" id="products-count">—</div>
+            <div class="stat-label">Products</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-icon"><i class="fas fa-star"></i></div>
+            <div class="stat-num" id="testimonials-count">—</div>
+            <div class="stat-label">Testimonials</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-icon"><i class="fas fa-briefcase"></i></div>
+            <div class="stat-num" id="applications-count">—</div>
+            <div class="stat-label">Applications</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-icon"><i class="fas fa-envelope"></i></div>
+            <div class="stat-num" id="messages-count">—</div>
+            <div class="stat-label">Messages</div>
+          </div>
+        </div>
+        <div class="admin-card">
+          <h3><i class="fas fa-info-circle"></i> Quick Info</h3>
+          <p style="color:#777;font-size:0.9rem;line-height:1.8;">Use the sidebar to manage products, approve testimonials, view business applications, and read contact messages. All data syncs live with Firebase Firestore.</p>
+        </div>
+      </div>
+
+      <!-- Orders Panel -->
+      <div id="panel-orders" class="admin-panel">
+        <div class="admin-card">
+          <h3><i class="fas fa-shopping-bag"></i> Customer Orders</h3>
+          <div id="orders-grid"><p style="color:#aaa;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- Users Panel -->
+      <div id="panel-users" class="admin-panel">
+        <div class="admin-card">
+          <h3><i class="fas fa-users"></i> Registered Users</h3>
+          <div id="users-grid"><p style="color:#aaa;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- Products Panel -->
+      <div id="panel-products" class="admin-panel">
+        <div class="admin-card">
+          <h3><i class="fas fa-plus-circle"></i> Add New Product</h3>
+          <form id="add-product-form" class="admin-form">
+            <div class="product-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+              <div class="field">
+                <label>Product Name</label>
+                <input id="product-name" placeholder="e.g. Aloe Vera Gel" required>
+              </div>
+              <div class="field">
+                <label>Price (GH₵)</label>
+                <input id="product-price" type="number" step="0.01" placeholder="e.g. 150" required>
+              </div>
+            </div>
+            <div class="field">
+              <label>Description</label>
+              <textarea id="product-desc" rows="3" placeholder="Product description..."></textarea>
+            </div>
+            <div class="field">
+              <label>Product Image</label>
+              <input id="product-image" type="file" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-plus" style="margin-right:6px;"></i>Add Product
+            </button>
+          </form>
+        </div>
+        <div class="admin-card">
+          <h3><i class="fas fa-list"></i> All Products</h3>
+          <div id="products-grid"><p style="color:#aaa;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- Testimonials Panel -->
+      <div id="panel-testimonials" class="admin-panel">
+        <div class="admin-card">
+          <h3><i class="fas fa-star"></i> Testimonials</h3>
+          <div id="testimonials-grid"><p style="color:#aaa;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- Applications Panel -->
+      <div id="panel-applications" class="admin-panel">
+        <div class="admin-card">
+          <h3><i class="fas fa-briefcase"></i> Business Applications</h3>
+          <div id="applications-grid"><p style="color:#aaa;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- Messages Panel -->
+      <div id="panel-messages" class="admin-panel">
+        <div class="admin-card">
+          <h3><i class="fas fa-envelope"></i> Contact Messages</h3>
+          <div id="messages-grid"><p style="color:#aaa;">Loading...</p></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div id="change-password-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(255,255,255,0.4);backdrop-filter:blur(10px);align-items:center;justify-content:center;">
+    <div style="background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.9);border-radius:24px;padding:2.5rem;width:90%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.1);position:relative;">
+      <button onclick="closeChangePassword()" style="position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;font-size:1.6rem;cursor:pointer;color:#aaa;line-height:1;">×</button>
+
+      <!-- Step 1: Secret code -->
+      <div id="cp-step-1">
+        <div style="text-align:center;margin-bottom:1.8rem;">
+          <div style="width:52px;height:52px;background:rgba(139,195,74,0.12);border:1.5px solid rgba(139,195,74,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;color:#6a9e30;">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3 style="font-size:1.3rem;color:#1a1a1a;">Change Password</h3>
+          <p style="color:#aaa;font-size:0.85rem;margin-top:4px;">Enter the secret code to continue</p>
+        </div>
+        <div id="cp-error-1" style="display:none;background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);color:#c0392b;padding:10px 14px;border-radius:10px;font-size:0.85rem;margin-bottom:1rem;"></div>
+        <div style="margin-bottom:1.2rem;">
+          <label style="display:block;font-size:0.85rem;font-weight:600;color:#555;margin-bottom:6px;">
+            <i class="fas fa-key" style="color:#7ab535;margin-right:6px;"></i>Secret Code
+          </label>
+          <input type="password" id="cp-secret" placeholder="Enter secret code"
+            style="width:100%;padding:13px 16px;border:1.5px solid rgba(0,0,0,0.1);border-radius:12px;font-size:1rem;font-family:inherit;background:rgba(255,255,255,0.8);outline:none;transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='rgba(139,195,74,0.6)'" onblur="this.style.borderColor='rgba(0,0,0,0.1)'"
+            onkeydown="if(event.key==='Enter')verifySecretCode()">
+        </div>
+        <button onclick="verifySecretCode()" class="btn btn-primary" style="width:100%;padding:14px;font-size:1rem;">
+          Verify Code
+        </button>
+      </div>
+
+      <!-- Step 2: New password -->
+      <div id="cp-step-2" style="display:none;">
+        <div style="text-align:center;margin-bottom:1.8rem;">
+          <div style="width:52px;height:52px;background:rgba(139,195,74,0.12);border:1.5px solid rgba(139,195,74,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.4rem;color:#6a9e30;">
+            <i class="fas fa-lock"></i>
+          </div>
+          <h3 style="font-size:1.3rem;color:#1a1a1a;">Set New Password</h3>
+          <p style="color:#aaa;font-size:0.85rem;margin-top:4px;">Choose a strong password</p>
+        </div>
+        <div id="cp-error-2" style="display:none;background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);color:#c0392b;padding:10px 14px;border-radius:10px;font-size:0.85rem;margin-bottom:1rem;"></div>
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;font-size:0.85rem;font-weight:600;color:#555;margin-bottom:6px;">New Password</label>
+          <input type="password" id="cp-new" placeholder="Min. 6 characters"
+            style="width:100%;padding:13px 16px;border:1.5px solid rgba(0,0,0,0.1);border-radius:12px;font-size:1rem;font-family:inherit;background:rgba(255,255,255,0.8);outline:none;transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='rgba(139,195,74,0.6)'" onblur="this.style.borderColor='rgba(0,0,0,0.1)'">
+        </div>
+        <div style="margin-bottom:1.5rem;">
+          <label style="display:block;font-size:0.85rem;font-weight:600;color:#555;margin-bottom:6px;">Confirm Password</label>
+          <input type="password" id="cp-confirm" placeholder="Repeat new password"
+            style="width:100%;padding:13px 16px;border:1.5px solid rgba(0,0,0,0.1);border-radius:12px;font-size:1rem;font-family:inherit;background:rgba(255,255,255,0.8);outline:none;transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='rgba(139,195,74,0.6)'" onblur="this.style.borderColor='rgba(0,0,0,0.1)'"
+            onkeydown="if(event.key==='Enter')updateAdminPassword()">
+        </div>
+        <button onclick="updateAdminPassword()" class="btn btn-primary" style="width:100%;padding:14px;font-size:1rem;">
+          <i class="fas fa-save" style="margin-right:8px;"></i>Update Password
+        </button>
+      </div>
+
+      <!-- Step 3: Success -->
+      <div id="cp-step-3" style="display:none;text-align:center;padding:1rem 0;">
+        <div style="width:64px;height:64px;background:rgba(139,195,74,0.12);border:2px solid rgba(139,195,74,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem;color:#6a9e30;">
+          <i class="fas fa-check"></i>
+        </div>
+        <h3 style="font-size:1.3rem;margin-bottom:0.75rem;color:#1a1a1a;">Password Updated!</h3>
+        <p style="color:#777;font-size:0.9rem;margin-bottom:1.5rem;">Your password has been changed successfully. You'll need to use the new password next time you log in.</p>
+        <button onclick="closeChangePassword()" class="btn btn-primary" style="width:100%;">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile bottom tab bar -->
+  <nav class="admin-bottom-nav" id="admin-bottom-nav">
+    <a href="#" onclick="showPanel('overview',this);return false;" class="active"><i class="fas fa-chart-pie"></i>Overview</a>
+    <a href="#" onclick="showPanel('orders',this);return false;"><i class="fas fa-shopping-bag"></i>Orders</a>
+    <a href="#" onclick="showPanel('users',this);return false;"><i class="fas fa-users"></i>Users</a>
+    <a href="#" onclick="showPanel('products',this);return false;"><i class="fas fa-box"></i>Products</a>
+    <a href="#" onclick="showPanel('testimonials',this);return false;"><i class="fas fa-star"></i>Reviews</a>
+    <a href="#" onclick="showPanel('applications',this);return false;"><i class="fas fa-briefcase"></i>Apply</a>
+    <a href="#" onclick="showPanel('messages',this);return false;"><i class="fas fa-envelope"></i>Messages</a>
+    <a href="#" onclick="openChangePassword();return false;"><i class="fas fa-key"></i>Password</a>
+    <a href="#" onclick="adminLogout();return false;" class="logout-btn"><i class="fas fa-sign-out-alt"></i>Logout</a>
+  </nav>
+
+  <script>
+    window.showPanel = (name, el) => {
+      document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.sidebar-nav a, .admin-bottom-nav a').forEach(a => a.classList.remove('active'));
+      document.getElementById('panel-' + name).classList.add('active');
+      el.classList.add('active');
+      // sync the other nav (sidebar or bottom)
+      document.querySelectorAll('.sidebar-nav a, .admin-bottom-nav a').forEach(a => {
+        const oc = a.getAttribute('onclick') || '';
+        if (oc.includes(`'${name}'`) || oc.includes(`"${name}"`)) a.classList.add('active');
+      });
+      const titleEl = document.querySelector('.admin-topbar h1');
+      if (titleEl) titleEl.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+    };
+  </script>
+
+  <script type="module">
+    import { adminAuth, adminDb, adminLogoutFn, onAdminAuthChange, adminGetCollection, checkAdminRole } from './js/firebase.js';
+    import { updatePassword } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+    import { getDoc, doc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+    import { initAdmin } from './js/admin.js';
+
+    // Fast check: if no admin flag in localStorage, redirect immediately
+    if (!localStorage.getItem('mama_admin_uid')) {
+      window.location.href = 'admin-login.html';
+    }
+
+    // Then verify with Firebase Auth (handles page refresh)
+    let authResolved = false;
+    const fallbackTimer = setTimeout(() => {
+      if (!authResolved) window.location.href = 'admin-login.html';
+    }, 6000);
+
+    onAdminAuthChange(async (user) => {
+      authResolved = true;
+      clearTimeout(fallbackTimer);
+      if (!user) {
+        localStorage.removeItem('mama_admin_uid');
+        window.location.href = 'admin-login.html';
+        return;
+      }
+      // Verify still admin
+      const isAdmin = await checkAdminRole(user.uid);
+      if (!isAdmin) {
+        localStorage.removeItem('mama_admin_uid');
+        window.location.href = 'admin-login.html';
+        return;
+      }
+      localStorage.setItem('mama_admin_uid', user.uid);
+      document.getElementById('admin-email-display').textContent = user.email;
+      document.getElementById('admin-greeting').textContent = `Signed in as ${user.email}`;
+      initAdmin();
+    });
+
+    window.adminLogout = async () => {
+      await adminLogoutFn();
+      window.location.href = 'admin-login.html';
+    };
+
+    // ===== CHANGE PASSWORD =====
+    window.openChangePassword = () => {
+      document.getElementById('cp-step-1').style.display = 'block';
+      document.getElementById('cp-step-2').style.display = 'none';
+      document.getElementById('cp-step-3').style.display = 'none';
+      document.getElementById('cp-error-1').style.display = 'none';
+      document.getElementById('cp-secret').value = '';
+      document.getElementById('cp-new').value = '';
+      document.getElementById('cp-confirm').value = '';
+      const modal = document.getElementById('change-password-modal');
+      modal.style.display = 'flex';
+    };
+
+    window.closeChangePassword = () => {
+      document.getElementById('change-password-modal').style.display = 'none';
+    };
+
+    window.verifySecretCode = async () => {
+      const code = document.getElementById('cp-secret').value.trim();
+      const errEl = document.getElementById('cp-error-1');
+      errEl.style.display = 'none';
+      if (!code) { errEl.textContent = 'Please enter the secret code.'; errEl.style.display = 'block'; return; }
+
+      try {
+        const snap = await getDoc(doc(adminDb, 'config', 'admin'));
+        if (!snap.exists()) {
+          errEl.textContent = 'Config document not found in Firestore (config/admin).';
+          errEl.style.display = 'block';
+          return;
+        }
+        const storedCode = String(snap.data().changePasswordCode || '').trim();
+        if (storedCode !== String(code).trim()) {
+          errEl.textContent = 'Incorrect secret code. Please try again.';
+          errEl.style.display = 'block';
+          return;
+        }
+        document.getElementById('cp-step-1').style.display = 'none';
+        document.getElementById('cp-step-2').style.display = 'block';
+        document.getElementById('cp-new').focus();
+      } catch (e) {
+        console.error('Secret code verify error:', e);
+        errEl.textContent = 'Error: ' + e.message;
+        errEl.style.display = 'block';
+      }
+    };
+
+    window.updateAdminPassword = async () => {
+      const newPass = document.getElementById('cp-new').value;
+      const confirm = document.getElementById('cp-confirm').value;
+      const errEl = document.getElementById('cp-error-2');
+      errEl.style.display = 'none';
+
+      if (newPass.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
+      if (newPass !== confirm) { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; return; }
+
+      try {
+        const user = adminAuth.currentUser;
+        await updatePassword(user, newPass);
+        document.getElementById('cp-step-2').style.display = 'none';
+        document.getElementById('cp-step-3').style.display = 'block';
+      } catch (e) {
+        if (e.code === 'auth/requires-recent-login') {
+          errEl.textContent = 'Session expired. Please log out and log back in, then try again.';
+        } else {
+          errEl.textContent = 'Error updating password: ' + e.message;
+        }
+        errEl.style.display = 'block';
+      }
+    };
+  </script>
+</body>
+</html>
